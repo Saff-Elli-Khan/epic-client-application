@@ -2,7 +2,7 @@ import { FC, createContext, useContext, useState, useEffect } from "react";
 import { useLanguage } from "./language";
 import { Translator } from "../lib/translator";
 import { Requests } from "../lib/requests";
-import { getStorageItem, setStorageItem } from "../lib/storage";
+import { Storage } from "@capacitor/storage";
 
 // Create Translator Instance
 export const TRANSLATOR = new Translator({
@@ -31,7 +31,7 @@ export const TRANSLATOR = new Translator({
 
 // Create Context
 const SetTranslationContext = createContext(
-  (null as unknown) as <T extends string | string[]>(
+  null as unknown as <T extends string | string[]>(
     targets: T
   ) => Promise<string | string[]>
 );
@@ -107,7 +107,10 @@ export const TranslationProvider: FC<TranslationProviderProps> = ({
         await TRANSLATOR.setOptions({
           currentLangauge: language,
         })
-          .setCacheEngines(setStorageItem, getStorageItem)
+          .setCacheEngines(
+            (key, value) => Storage.set({ key, value }),
+            async (key) => (await Storage.get({ key })).value
+          )
           .translate<string[]>();
 
         // Get Translated Data

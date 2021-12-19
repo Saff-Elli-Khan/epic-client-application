@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { getStorageItem, setStorageItem } from "./storage";
+import { Storage } from "@capacitor/storage";
 
 export interface ValidationMessage {
   param?: string;
@@ -32,7 +32,10 @@ export class Requests {
       // Check Response
       if (typeof Response.data === "object")
         return { ...Response.data, statusCode: Response.status };
-      else throw new Error(`Invalid or unexpected response pattern!`);
+      else
+        throw new Error(
+          `Invalid or unexpected response pattern from your request!`
+        );
     } catch (error) {
       // Request Error
       return {
@@ -81,18 +84,20 @@ export class Requests {
       !Response.status
     ) {
       // Get Cached Data
-      const Cache = getStorageItem(
-        `GET:${ResolvedUrl};${JSON.stringify(config)}`
-      );
+      const Cache = (
+        await Storage.get({
+          key: `GET:${ResolvedUrl};${JSON.stringify(config)}`,
+        })
+      ).value;
 
       return (Cache ? JSON.parse(Cache) : Response) as typeof Response;
     } else {
       // Cache Response
       if (config.cache && Response.status)
-        setStorageItem(
-          `GET:${ResolvedUrl};${JSON.stringify(config)}`,
-          JSON.stringify(Response)
-        );
+        await Storage.set({
+          key: `GET:${ResolvedUrl};${JSON.stringify(config)}`,
+          value: JSON.stringify(Response),
+        });
 
       return Response;
     }

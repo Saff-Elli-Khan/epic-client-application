@@ -1,11 +1,11 @@
 import { FC, createContext, useContext, useState, useEffect } from "react";
-import { getStorageItem, setStorageItem } from "../lib/storage";
+import { Storage } from "@capacitor/storage";
 
 // Create Context
-const DefaultCurrency = "en";
+const DefaultCurrency = "usd";
 const CurrencyContext = createContext(DefaultCurrency);
 const SetCurrencyContext = createContext(
-  (null as unknown) as (currency: string) => void
+  null as unknown as (currency: string) => void
 );
 
 // Use Context
@@ -18,15 +18,24 @@ export const CurrencyProvider: FC = ({ children }) => {
   const [state, setState] = useState(useCurrency());
 
   useEffect(() => {
-    // Get Currency From Storage
-    setState((state) => [
-      getStorageItem("Currency") || DefaultCurrency,
-      state[1],
-    ]);
+    const Mounted = { current: true };
+
+    (async () => {
+      // Get Currency From Storage
+      const Currency =
+        (await Storage.get({ key: "Currency" })).value || DefaultCurrency;
+
+      // Set Current Currency
+      if (Mounted.current) setState((state) => [Currency, state[1]]);
+    })();
+
+    () => {
+      Mounted.current = false;
+    };
   }, []);
 
   const setCurrency = (currency: string) => {
-    setStorageItem("Currency", currency);
+    Storage.set({ key: "Currency", value: currency });
     setState((state) => [currency, state[1]]);
   };
 

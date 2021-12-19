@@ -1,11 +1,11 @@
 import { FC, createContext, useContext, useState, useEffect } from "react";
-import { getStorageItem, setStorageItem } from "../lib/storage";
+import { Storage } from "@capacitor/storage";
 
 // Create Context
-const DefaultLanguage = getStorageItem("Language") || "en";
+const DefaultLanguage = "en";
 const LanguageContext = createContext(DefaultLanguage);
 const SetLanguageContext = createContext(
-  (null as unknown) as (language: string) => void
+  null as unknown as (language: string) => void
 );
 
 // Use Context
@@ -18,11 +18,20 @@ export const LanguageProvider: FC = ({ children }) => {
   const [state, setState] = useState(useLanguage());
 
   useEffect(() => {
-    // Get Language From Storage
-    setState((state) => [
-      getStorageItem("Language") || DefaultLanguage,
-      state[1],
-    ]);
+    const Mounted = { current: true };
+
+    (async () => {
+      // Get Language From Storage
+      const Language =
+        (await Storage.get({ key: "Language" })).value || DefaultLanguage;
+
+      // Set Current Language
+      if (Mounted.current) setState((state) => [Language, state[1]]);
+    })();
+
+    () => {
+      Mounted.current = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -31,7 +40,7 @@ export const LanguageProvider: FC = ({ children }) => {
   }, [state[0]]);
 
   const setLanguage = (language: string) => {
-    setStorageItem("Language", language);
+    Storage.set({ key: "Language", value: language });
     setState((state) => [language, state[1]]);
   };
 
