@@ -1,19 +1,16 @@
 import { useMemo } from "react";
 import { Helmet } from "react-helmet";
-import { useAPIDetails } from "../../hooks/api-details";
 
 export interface HeadProps {
   title?: string;
 }
 
 export const Head: React.FC<HeadProps> = ({ title }) => {
-  const APIDetails = useAPIDetails();
-
   const Manifest = useMemo(
     () => ({
-      short_name: APIDetails?.name || "Loading...",
-      name: APIDetails?.brand?.name || "Loading...",
-      description: APIDetails?.description || "Loading...",
+      short_name: "Loading...",
+      name: "Loading...",
+      description: "Loading...",
       start_url: window.location.origin,
       display: "standalone",
       theme_color: "#ffffff",
@@ -29,7 +26,7 @@ export const Head: React.FC<HeadProps> = ({ title }) => {
         },
       ],
     }),
-    [APIDetails]
+    []
   );
 
   return (

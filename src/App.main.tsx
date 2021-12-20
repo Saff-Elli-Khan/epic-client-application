@@ -1,4 +1,3 @@
-import { APIDetailsProvider } from "./hooks/api-details";
 import { LanguageProvider } from "./hooks/language";
 import { TranslationProvider } from "./hooks/translator";
 import { CurrencyProvider } from "./hooks/currency";
@@ -11,13 +10,11 @@ import "line-awesome/dist/line-awesome/css/line-awesome.min.css";
 import "./styles/output.css";
 
 export default () => (
-  <APIDetailsProvider>
-    <LanguageProvider>
-      <TranslationProvider>
-        <CurrencyProvider>
-          <AppRoutes />
-        </CurrencyProvider>
-      </TranslationProvider>
-    </LanguageProvider>
-  </APIDetailsProvider>
+  <LanguageProvider>
+    <TranslationProvider>
+      <CurrencyProvider>
+        <AppRoutes />
+      </CurrencyProvider>
+    </TranslationProvider>
+  </LanguageProvider>
 );

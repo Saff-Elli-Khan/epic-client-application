@@ -29,7 +29,7 @@ export const LanguageProvider: FC = ({ children }) => {
       if (Mounted.current) setState((state) => [Language, state[1]]);
     })();
 
-    () => {
+    return () => {
       Mounted.current = false;
     };
   }, []);

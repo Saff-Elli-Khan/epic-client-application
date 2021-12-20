@@ -29,7 +29,7 @@ export const CurrencyProvider: FC = ({ children }) => {
       if (Mounted.current) setState((state) => [Currency, state[1]]);
     })();
 
-    () => {
+    return () => {
       Mounted.current = false;
     };
   }, []);
