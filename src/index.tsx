@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import * as ServiceWorkerRegistration from "./serviceWorkerRegistration";
 import ReportWebVitals from "./reportWebVitals";
 import * as IonicPWA from "@ionic/pwa-elements/loader";
-import App from "./App.main";
+import { App } from "./App.main";
 
 // Render Application
 ReactDOM.render(<App />, document.getElementById("root"));

@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import { Head } from "../components/core/head";
 import { Translate } from "../hooks/translator";
 
@@ -13,6 +14,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ title, children }) => {
         <>
           <Head title={title} />
           {children}
+          <Outlet />
         </>
       )}
     />

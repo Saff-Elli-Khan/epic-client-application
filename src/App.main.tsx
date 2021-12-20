@@ -9,7 +9,7 @@ import "line-awesome/dist/line-awesome/css/line-awesome.min.css";
 // Load Styles
 import "./styles/output.css";
 
-export default () => (
+export const App = () => (
   <LanguageProvider>
     <TranslationProvider>
       <CurrencyProvider>
