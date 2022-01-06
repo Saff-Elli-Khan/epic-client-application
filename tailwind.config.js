@@ -39,11 +39,11 @@ module.exports = {
   mode: "jit",
   darkMode: "class",
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
-  safelist: [
-    {
-      pattern: /bg-/g,
-    },
-  ],
+  // safelist: [
+  //   {
+  //     pattern: /bg-/g,
+  //   },
+  // ],
   theme: {
     extend: {
       colors: {
@@ -56,6 +56,26 @@ module.exports = {
         info: colors.purple,
         muted: colors.stone,
         light: colors.white,
+      },
+
+      animation: {
+        fab: "fab 0.4s ease-out forwards 0.1s",
+      },
+      keyframes: {
+        fab: {
+          "0%": {
+            transform: "scale(1, 1)",
+          },
+          "33%": {
+            transform: "scale(0.95, 1.05)",
+          },
+          "66%": {
+            transform: "scale(1.05, 0.95)",
+          },
+          "100%": {
+            transform: "scale(1, 1)",
+          },
+        },
       },
     },
   },
