@@ -4,7 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Badge, BadgeProps } from "./components/ui/badge/badge";
 import { Button, ButtonProps } from "./components/ui/button/button";
 import { Chip, ChipProps } from "./components/ui/chip/chip";
-import { Fab, FabProps } from "./components/ui/fab/fab";
+import { Fab } from "./components/ui/fab/fab";
+import { Input, InputProps } from "./components/ui/input/input";
 import { ScrollToTop } from "./components/utils/scrollToTop";
 import { PageLayout } from "./layouts/page";
 import { ErrorPage } from "./pages/error";
@@ -102,7 +103,11 @@ export const AppRoutes: React.FC = () => {
                         badgeTitle: "Spinner Variant",
                         buttonProps: [
                           { theme: "primary", isBusy: true },
-                          { theme: "secondary", isBusy: true, mode: "outline" },
+                          {
+                            theme: "secondary",
+                            isBusy: true,
+                            mode: "outline",
+                          },
                           { theme: "tertiary", isBusy: true },
                           { theme: "warning", isBusy: true, mode: "outline" },
                           { theme: "danger", isBusy: true },
@@ -171,7 +176,7 @@ export const AppRoutes: React.FC = () => {
                             icon: "las la-music",
                             responsive: true,
                             notifier: (
-                              <div className="absolute -top-1.5 -right-1.5">
+                              <div className="absolute -top-1.5 ltr:-right-1.5 rtl:-left-1.5">
                                 <Badge theme="warning" />
                               </div>
                             ),
@@ -182,7 +187,7 @@ export const AppRoutes: React.FC = () => {
                             icon: "las la-play",
                             responsive: true,
                             notifier: (
-                              <div className="absolute -top-1.5 -right-1.5">
+                              <div className="absolute -top-1.5 ltr:-right-1.5 rtl:-left-1.5">
                                 <Badge theme="danger">
                                   <p className="text-xs">35</p>
                                 </Badge>
@@ -195,7 +200,7 @@ export const AppRoutes: React.FC = () => {
                             icon: "las la-play",
                             responsive: true,
                             notifier: (
-                              <div className="absolute -top-1.5 -right-1.5">
+                              <div className="absolute -top-1.5 ltr:-right-1.5 rtl:-left-1.5">
                                 <Badge theme="success" />
                               </div>
                             ),
@@ -206,7 +211,7 @@ export const AppRoutes: React.FC = () => {
                             icon: "las la-redo-alt",
                             responsive: true,
                             notifier: (
-                              <div className="absolute -top-1.5 -right-1.5">
+                              <div className="absolute -top-1.5 ltr:-right-1.5 rtl:-left-1.5">
                                 <Badge theme="muted">
                                   <p className="text-xs">1035</p>
                                 </Badge>
@@ -475,7 +480,7 @@ export const AppRoutes: React.FC = () => {
                     </React.Fragment>
                   ))}
 
-                  <h2 className="text-3xl text-stone-500 my-5">FAB</h2>
+                  <h2 className="text-3xl text-stone-500 my-5">FAB's</h2>
 
                   <div className="relative h-[500px] mt-60">
                     <div className="flex flex-wrap items-center gap-5">
@@ -515,6 +520,205 @@ export const AppRoutes: React.FC = () => {
                       />
                     </div>
                   </div>
+
+                  <h2 className="text-3xl text-stone-500 my-5">Inputs</h2>
+
+                  {([
+                    {
+                      badgeTitle: "Transparent Variant With IconButtons",
+                      inputProps: [
+                        {
+                          type: "password",
+                          theme: "primary",
+                          placeholder: "Type your password",
+                        },
+                        {
+                          left: () => (
+                            <i className="las la-podcast text-secondary-500"></i>
+                          ),
+                          theme: "secondary",
+                          placeholder: "Enter your text...",
+                        },
+                        {
+                          theme: "tertiary",
+                          placeholder: "Search your text...",
+                          type: "search",
+                        },
+                        {
+                          theme: "warning",
+                          placeholder: "Enter your text...",
+                          right: () => (
+                            <i className="las la-podcast text-warning-500"></i>
+                          ),
+                        },
+                        {
+                          theme: "danger",
+                          placeholder: "Enter your text...",
+                          right: () => (
+                            <i className="las la-angle-down text-danger-500"></i>
+                          ),
+                        },
+                        {
+                          theme: "success",
+                          placeholder: "Enter your text...",
+                          left: () => (
+                            <i className="las la-money-check text-success-500"></i>
+                          ),
+                          right: () => (
+                            <i className="las la-check text-success-500"></i>
+                          ),
+                        },
+                        {
+                          theme: "info",
+                          placeholder: "Enter your text and press to copy",
+                          right: () => (
+                            <i className="las la-clipboard-list text-info-500"></i>
+                          ),
+                        },
+                        {
+                          type: "search",
+                          theme: "muted",
+                          placeholder: "Enter your text...",
+                          isBusy: true,
+                        },
+                        {
+                          type: "search",
+                          theme: "light",
+                          placeholder: "Enter your text...",
+                          isBusy: true,
+                        },
+                      ],
+                    },
+                    {
+                      badgeTitle: "Transparent Variant",
+                      inputProps: [
+                        {
+                          theme: "primary",
+                          placeholder: "Enter your text...",
+                          message: "Primary: this is a primary input",
+                        },
+                        {
+                          theme: "secondary",
+                          placeholder: "Enter your text...",
+                          message: "Secondary: this is a secondary input",
+                        },
+                        {
+                          theme: "tertiary",
+                          placeholder: "Search your text...",
+                          type: "search",
+                          message: "Tertiary: This is a tertiary input.",
+                        },
+                        {
+                          theme: "warning",
+                          placeholder: "Enter your text...",
+                          message: "Warning: you can't add your own props!",
+                        },
+                        {
+                          theme: "danger",
+                          placeholder: "Enter your text...",
+                          message: "Danger: we have an issue!",
+                        },
+                        {
+                          theme: "success",
+                          placeholder: "Enter your text...",
+                          message: "Success: your request has been finished!",
+                        },
+                        {
+                          theme: "info",
+                          placeholder: "Enter your text...",
+                          message: "Info: this is a info input.",
+                        },
+                        {
+                          theme: "muted",
+                          placeholder: "Enter your text...",
+                          message: "Muted: this is a muted input",
+                        },
+                        {
+                          theme: "light",
+                          placeholder: "Enter your text...",
+                          message: "Light: this is a light input",
+                        },
+                      ],
+                    },
+                    {
+                      badgeTitle: "Outline Variant",
+                      inputProps: [
+                        {
+                          theme: "primary",
+                          placeholder: "Enter your text...",
+                          mode: "outline",
+                          message: "Primary: this is a primary input",
+                        },
+                        {
+                          theme: "secondary",
+                          placeholder: "Enter your text...",
+                          mode: "outline",
+                          message: "Secondary: this is a secondary input",
+                        },
+                        {
+                          theme: "tertiary",
+                          placeholder: "Search your text...",
+                          mode: "outline",
+                          type: "search",
+                          message: "Tertiary: This is a tertiary input.",
+                        },
+                        {
+                          theme: "warning",
+                          placeholder: "Enter your text...",
+                          mode: "outline",
+                          message: "Warning: you can't add your own props!",
+                        },
+                        {
+                          theme: "danger",
+                          placeholder: "Enter your text...",
+                          mode: "outline",
+                          message: "Danger: we have an issue!",
+                        },
+                        {
+                          theme: "success",
+                          placeholder: "Enter your text...",
+                          mode: "outline",
+                          message: "Success: your request has been finished!",
+                        },
+                        {
+                          theme: "info",
+                          placeholder: "Enter your text...",
+                          mode: "outline",
+                          message: "Info: this is a info input.",
+                        },
+                        {
+                          theme: "muted",
+                          placeholder: "Enter your text...",
+                          mode: "outline",
+                          message: "Muted: this is a muted input",
+                        },
+                        {
+                          theme: "light",
+                          placeholder: "Enter your text...",
+                          mode: "outline",
+                          message: "Light: this is a light input",
+                        },
+                      ],
+                    },
+                  ] as {
+                    badgeTitle: string;
+                    inputProps: InputProps[];
+                  }[]).map((value, index) => (
+                    <React.Fragment key={index}>
+                      <div className="flex mt-5">
+                        <div className="bg-stone-200 dark:bg-stone-500 px-2 rounded-full mb-5 text-center">
+                          <p className="text-xs text-stone-500 dark:text-white">
+                            {value.badgeTitle}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-5">
+                        {value.inputProps.map((v, i) => (
+                          <Input key={i} {...v} />
+                        ))}
+                      </div>
+                    </React.Fragment>
+                  ))}
                 </div>
               }
             />

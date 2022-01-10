@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ThemeVariants } from "../global";
-import { Loading } from "../loading/loading";
+import { Loading, LoadingProps } from "../loading/loading";
 
 // @ts-ignore
 export interface ButtonProps
   extends React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {
-  mode?: "outline" | "fill";
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
+      HTMLButtonElement
+    >,
+    LoadingProps {
+  mode?: "outline" | "fill" | "basic";
   notifier?: React.ReactNode;
   rounded?: boolean;
   theme?: ThemeVariants;
@@ -33,6 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
   rounded = false,
   icon,
   className,
+  loadingClassName,
   onClick,
   disabled,
   isBusy = false,
@@ -45,76 +47,25 @@ export const Button: React.FC<ButtonProps> = ({
   const [Busy, setBusy] = useState(isBusy);
   const Navigate = useNavigate();
 
-  const ClassesConfig: Record<
-    ThemeVariants,
-    { default: string; fill: string; outline: string }
-  > = {
-    primary: {
-      default: "hover:bg-primary-600 ring-primary-500",
-      fill: "bg-primary-500 text-white border-transparent",
-      outline:
-        "bg-transparent text-primary-500 hover:text-white border-primary-500",
-    },
-    secondary: {
-      default: "hover:bg-secondary-600 ring-secondary-500",
-      fill: "bg-secondary-500 text-black border-transparent",
-      outline:
-        "bg-transparent text-secondary-500 hover:text-black border-secondary-500",
-    },
-    tertiary: {
-      default: "hover:bg-tertiary-600 ring-tertiary-500",
-      fill: "bg-tertiary-500 text-white border-transparent",
-      outline:
-        "bg-transparent text-tertiary-500 hover:text-white border-tertiary-500",
-    },
-    warning: {
-      default: "hover:bg-warning-600 ring-warning-500",
-      fill: "bg-warning-500 text-black border-transparent",
-      outline:
-        "bg-transparent text-warning-500 hover:text-black border-warning-500",
-    },
-    danger: {
-      default: "hover:bg-danger-600 ring-danger-500",
-      fill: "bg-danger-500 text-white border-transparent",
-      outline:
-        "bg-transparent text-danger-500 hover:text-white border-danger-500",
-    },
-    success: {
-      default: "hover:bg-success-600 ring-success-500",
-      fill: "bg-success-500 text-white border-transparent",
-      outline:
-        "bg-transparent text-success-500 hover:text-white border-success-500",
-    },
-    info: {
-      default: "hover:bg-info-600 ring-info-500",
-      fill: "bg-info-500 text-white border-transparent",
-      outline: "bg-transparent text-info-500 hover:text-white border-info-500",
-    },
-    muted: {
-      default: "hover:bg-muted-600 ring-muted-500",
-      fill: "bg-muted-500 text-white border-transparent",
-      outline:
-        "bg-transparent text-muted-500 hover:text-white border-muted-500",
-    },
-    light: {
-      default: "hover:bg-stone-50 ring-stone-50",
-      fill: "bg-light text-black",
-      outline:
-        "bg-transparent text-black dark:text-white dark:hover:text-black",
-    },
+  const ClassesConfig: { fill: string; outline: string } = {
+    fill: `bg-${theme}-500 ${
+      theme === "light" ? "text-black" : "text-white"
+    } border-transparent`,
+    outline: `bg-transparent ${
+      theme === "light"
+        ? `text-black dark:text-light-500 dark:hover:text-black border-stone-200`
+        : `text-${theme}-500 hover:text-white border-${theme}-500`
+    }`,
   };
 
   return (
     <button
-      className={`flex justify-center 
-      items-center text-sm gap-x-1 p-2
-      shadow-sm transition 
-      focus:ring-2 ring-offset-2 dark:ring-offset-black 
-      border-2 active:scale-[1.05] cursor-pointer relative ${
-        rounded ? "rounded-full" : "rounded-xl"
-      } ${ClassesConfig[theme || "light"].default} ${
-        ClassesConfig[theme || "light"][mode]
-      } ${className} ${(Busy || disabled) && "opacity-80"}`}
+      className={`relative appearance-none flex justify-center 
+      items-center text-sm gap-x-1 p-2 transition active:scale-[1.05] cursor-pointer
+      ${
+        mode !== "basic" &&
+        `focus:ring-2 ring-offset-2 dark:ring-offset-black shadow-sm border-2 disabled:opacity-80 hover:bg-${theme}-600 ring-${theme}-500 ${ClassesConfig[mode]}`
+      } ${rounded ? "rounded-full" : "rounded-xl"} ${className}`}
       onClick={(e) => {
         if (typeof onClick === "function") onClick?.(e, setBusy);
         else if (typeof href === "string") window.location.href = href;
@@ -123,14 +74,14 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={Busy}
       {...rest}
     >
-      {Busy && <Loading />}
+      {Busy && <Loading loadingClassName={`fill-current ${loadingClassName}`} />}
       {!Busy && icon && <i className={`${icon} fill-current`}></i>}
       {children && (
         <div className={(icon || Busy) && responsive ? "hidden sm:block" : ""}>
           {children}
+          {React.isValidElement(notifier) && notifier}
         </div>
       )}
-      {React.isValidElement(notifier) && notifier}
     </button>
   );
 };

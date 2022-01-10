@@ -1,10 +1,10 @@
 import React from "react";
 
 export interface LoadingProps {
-  className?: string;
+  loadingClassName?: string;
 }
 
-export const Loading: React.FC<LoadingProps> = ({ className }) => {
+export const Loading: React.FC<LoadingProps> = ({ loadingClassName }) => {
   return (
     <svg
       version="1.1"
@@ -12,7 +12,7 @@ export const Loading: React.FC<LoadingProps> = ({ className }) => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 40 40"
       xmlSpace="preserve"
-      className={`fill-current w-[20px] h-[20px] ${className}`}
+      className={`fill-current w-[20px] h-[20px] ${loadingClassName}`}
     >
       <path
         opacity="0.2"

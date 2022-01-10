@@ -14,7 +14,7 @@ function hexToVariants(color, percent) {
   );
 }
 
-function makeColor(color) {
+function makeColor(color, skipShades = false) {
   return [
     "900",
     "800",
@@ -29,7 +29,7 @@ function makeColor(color) {
   ].reduce(
     (obj, key, index) => ({
       ...obj,
-      [key]: hexToVariants(color, (index - 4) * 10),
+      [key]: !skipShades ? hexToVariants(color, (index - 4) * 10) : color,
     }),
     {}
   );
@@ -38,12 +38,22 @@ function makeColor(color) {
 module.exports = {
   mode: "jit",
   darkMode: "class",
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
-  // safelist: [
-  //   {
-  //     pattern: /bg-/g,
-  //   },
-  // ],
+  content: ["./public/**/*.html", "./src/**/*.{js,jsx,ts,tsx,vue}"],
+  safelist: [
+    {
+      pattern: /(bg|text|ring|border)-(\w+)(-[0-9]+)?/,
+      variants: [
+        "lg",
+        "hover",
+        "focus",
+        "lg:hover",
+        "placeholder",
+        "dark",
+        "dark:hover",
+        "dark:placeholder",
+      ],
+    },
+  ],
   theme: {
     extend: {
       colors: {
@@ -55,11 +65,13 @@ module.exports = {
         success: colors.green,
         info: colors.purple,
         muted: colors.stone,
-        light: colors.white,
+        light: makeColor(colors.white, true),
+        dark: makeColor(colors.black, true),
       },
 
       animation: {
         fab: "fab 0.4s ease-out forwards 0.1s",
+        rotate: "1s rotate infinite linear",
       },
       keyframes: {
         fab: {
@@ -74,6 +86,14 @@ module.exports = {
           },
           "100%": {
             transform: "scale(1, 1)",
+          },
+        },
+        rotate: {
+          "0%": {
+            transform: "rotate(0)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
           },
         },
       },
