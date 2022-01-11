@@ -63,8 +63,9 @@ export const Button: React.FC<ButtonProps> = ({
       className={`relative appearance-none flex justify-center 
       items-center text-sm gap-x-1 p-2 transition active:scale-[1.05] cursor-pointer
       ${
-        mode !== "basic" &&
-        `focus:ring-2 ring-offset-2 dark:ring-offset-black shadow-sm border-2 disabled:opacity-80 hover:bg-${theme}-600 ring-${theme}-500 ${ClassesConfig[mode]}`
+        mode !== "basic"
+          ? `focus:ring-2 ring-offset-2 dark:ring-offset-black shadow-sm border-2 disabled:opacity-80 hover:bg-${theme}-600 ring-${theme}-500 ${ClassesConfig[mode]}`
+          : `${theme === "light" ? "text-black" : `text-${theme}-500`}`
       } ${rounded ? "rounded-full" : "rounded-xl"} ${className}`}
       onClick={(e) => {
         if (typeof onClick === "function") onClick?.(e, setBusy);
@@ -74,7 +75,9 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={Busy}
       {...rest}
     >
-      {Busy && <Loading loadingClassName={`fill-current ${loadingClassName}`} />}
+      {Busy && (
+        <Loading loadingClassName={`fill-current ${loadingClassName}`} />
+      )}
       {!Busy && icon && <i className={`${icon} fill-current`}></i>}
       {children && (
         <div className={(icon || Busy) && responsive ? "hidden sm:block" : ""}>
