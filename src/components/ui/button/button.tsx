@@ -61,7 +61,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={`relative appearance-none flex justify-center 
-      items-center text-sm gap-x-1 p-2 transition active:scale-[1.05] cursor-pointer
+      items-center text-sm gap-x-1 p-2 transition active:scale-[1.05] cursor-pointer select-none
       ${
         mode !== "basic"
           ? `focus:ring-2 ring-offset-2 dark:ring-offset-black shadow-sm border-2 disabled:opacity-80 hover:bg-${theme}-600 ring-${theme}-500 ${ClassesConfig[mode]}`
@@ -79,11 +79,13 @@ export const Button: React.FC<ButtonProps> = ({
         <Loading loadingClassName={`fill-current ${loadingClassName}`} />
       )}
       {!Busy && icon && <i className={`${icon} fill-current`}></i>}
-      {children && (
+      {children ? (
         <div className={(icon || Busy) && responsive ? "hidden sm:block" : ""}>
           {children}
           {React.isValidElement(notifier) && notifier}
         </div>
+      ) : (
+        React.isValidElement(notifier) && notifier
       )}
     </button>
   );
