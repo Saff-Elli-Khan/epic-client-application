@@ -1,7 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ThemeVariants } from "../global";
 
-export interface BadgeProps {
+export interface BadgeProps
+  extends React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > {
   theme?: ThemeVariants;
   mode?: "outline" | "fill" | "transparent";
   className?: string;
@@ -12,6 +16,7 @@ export const Badge: React.FC<BadgeProps> = ({
   mode = "fill",
   className,
   children,
+  ...rest
 }) => {
   const ClassesConfig: {
     fill: string;
@@ -40,6 +45,7 @@ export const Badge: React.FC<BadgeProps> = ({
           className={`${
             React.isValidElement(children) ? "px-1" : "p-1 !border-light"
           } rounded-full border shadow-sm  ${ClassesConfig[mode]}`}
+          {...rest}
         >
           {React.isValidElement(children) && children}
         </div>

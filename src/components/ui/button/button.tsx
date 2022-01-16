@@ -10,7 +10,7 @@ export interface ButtonProps
       HTMLButtonElement
     >,
     LoadingProps {
-  mode?: "outline" | "fill" | "basic";
+  mode?: "outline" | "fill" | "basic" | "transparent";
   notifier?: React.ReactNode;
   rounded?: boolean;
   theme?: ThemeVariants;
@@ -47,7 +47,11 @@ export const Button: React.FC<ButtonProps> = ({
   const [Busy, setBusy] = useState(isBusy);
   const Navigate = useNavigate();
 
-  const ClassesConfig: { fill: string; outline: string } = {
+  const ClassesConfig: {
+    fill: string;
+    outline: string;
+    transparent: string;
+  } = {
     fill: `bg-${theme}-500 ${
       theme === "light" ? "text-black" : "text-white"
     } border-transparent`,
@@ -56,6 +60,9 @@ export const Button: React.FC<ButtonProps> = ({
         ? `text-black dark:text-light-500 dark:hover:text-black border-stone-200`
         : `text-${theme}-500 hover:text-white border-${theme}-500`
     }`,
+    transparent: `bg-${theme}-500 bg-opacity-20 ${
+      theme === "light" ? "text-black" : `text-${theme}-500 hover:text-white`
+    } border-transparent`,
   };
 
   return (
