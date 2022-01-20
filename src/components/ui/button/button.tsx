@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ThemeVariants } from "../global";
 import { Loading, LoadingProps } from "../loading/loading";
@@ -45,7 +45,13 @@ export const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const [Busy, setBusy] = useState(isBusy);
+  const [Disabled, setDisabled] = useState(disabled);
   const Navigate = useNavigate();
+
+  useEffect(() => {
+    setBusy(isBusy);
+    setDisabled(disabled);
+  }, [isBusy, disabled]);
 
   const ClassesConfig: {
     fill: string;
@@ -79,7 +85,7 @@ export const Button: React.FC<ButtonProps> = ({
         else if (typeof href === "string") window.location.href = href;
         else if (typeof to === "string") Navigate(to);
       }}
-      disabled={Busy}
+      disabled={Busy || Disabled}
       {...rest}
     >
       {Busy && (

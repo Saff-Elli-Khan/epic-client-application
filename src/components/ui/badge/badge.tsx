@@ -34,7 +34,7 @@ export const Badge: React.FC<BadgeProps> = ({
     transparent: `${
       theme === "light"
         ? "text-black dark:text-white"
-        : `border-transparent bg-${theme}-500/20 text-${theme}-500`
+        : `border-transparent bg-${theme}-500 bg-opacity-20 text-${theme}-500`
     }`,
   };
 

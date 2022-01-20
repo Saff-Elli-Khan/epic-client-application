@@ -31,9 +31,13 @@ export const Chip: React.FC<ChipProps> = ({
     transparent: `${
       theme === "light"
         ? "border-stone-500/20"
-        : `bg-${theme}-500/20 border-transparent`
+        : `bg-${theme}-500 bg-opacity-20 border-transparent`
     }`,
-    outline: `bg-transparent ${theme === "light"? 'border-stone-500 border-opacity-20' : `border-${theme}-500 border-opacity-20`}`,
+    outline: `bg-transparent ${
+      theme === "light"
+        ? "border-stone-500 border-opacity-20"
+        : `border-${theme}-500 border-opacity-20`
+    }`,
   };
 
   return (
@@ -41,8 +45,8 @@ export const Chip: React.FC<ChipProps> = ({
       className={`flex flex-row items-center gap-x-2 border-2 shadow-sm ${ClassesConfig.default} ${ClassesConfig[mode]} 
       py-1.5 px-2.5 rounded-full max-w-[150px] disabled:opacity-80 ${className}`}
     >
-      {icon && <i className="las la-map-pin fill-current"></i>}
-      <p className="text-sm truncate text-ellipsis">{children}</p>
+      {icon && <i className={`${icon} fill-current`}></i>}
+      <p className="text-sm truncate text-ellipsis select-none">{children}</p>
       {cancelable && (
         <Button
           theme={theme}
